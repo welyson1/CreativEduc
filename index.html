@@ -119,26 +119,85 @@
         let etapaAtual = 1; // Começa na primeira etapa
 
         const etapasConfig = {
-            1: ["unidadeCurricular", "anoPeriodo", "conteudo", "habilidadesSociais", "habilidadesTecnicas", "funcoesCognitivasCriar", "funcoesCognitivasAplicar", "funcoesCognitivasSintetizar", "funcoesCognitivasEntender", "funcoesCognitivasAnalisar", "funcoesCognitivasLembrar"],
-            2: ["tema"],
-            3: [],
-            4: ["ambientacaoAtmosfera", "ambientacaoCenario", "ambientacaoEspaco"],
-            5: [],
-            6: ["personagens"],
-            7: [],
-            8: ["enredo"],
-            9: ["sessoes"],
-            10: ["regrasAleatoriedade", "regrasRecompensas", "regrasFeedback"],
-            11: ["materiais"],            
-            12: [],
-            13: ["narrativa"]
-        };
-
-        const blocosExplicacao = {
-            3: "<h1>Design Socialmente Consciente</h1><p>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
-            5: "<h2>Diagrama das Partes Interessadas</h2><p>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
-            7: "<h1>Quadro de Avaliação</h1><p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><p>Clique no link para conhecer mais sobre os artefatos e utilizar cartas que irão ajudar no entendimento e preenchimento junto aos alunos:<a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Acesse aqui</a>.</p>",
-            12: "<p>Prompt para IA: [tema] e [enredo]</p>"
+            1: {
+                campos: ["unidadeCurricular", "anoPeriodo", "conteudo", "habilidadesSociais", "habilidadesTecnicas", "funcoesCognitivasCriar", "funcoesCognitivasAplicar", "funcoesCognitivasSintetizar", "funcoesCognitivasEntender", "funcoesCognitivasAnalisar", "funcoesCognitivasLembrar"],
+                textoExplicativo: null,
+                processo: "Objetivos de aprendizagem",
+                exibirBlocoExplicacao: false
+            },
+            2: {
+                campos: ["tema"],
+                textoExplicativo: "O tema da sua história é [tema]. Esse tema será a base para o desenvolvimento do enredo e dos personagens. Certifique-se de que o tema seja claro e envolvente!",
+                processo: "Design Estética",
+                exibirBlocoExplicacao: true
+            },
+            3: {
+                campos: [],
+                textoExplicativo: "<h1>Design Socialmente Consciente</h1><p>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
+                processo: "DSC",
+                exibirBlocoExplicacao: false
+            },
+            4: {
+                campos: ["ambientacaoAtmosfera", "ambientacaoCenario", "ambientacaoEspaco"],
+                textoExplicativo: null,
+                processo: "Design Estética",
+                exibirBlocoExplicacao: false
+            },
+            5: {
+                campos: [],
+                textoExplicativo: "<h2>Diagrama das Partes Interessadas</h2><p>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
+                processo: "DSC",
+                exibirBlocoExplicacao: false
+            },
+            6: {
+                campos: ["personagens"],
+                textoExplicativo: null,
+                processo: "Design Dinâmica/Mecânica",
+                exibirBlocoExplicacao: false
+            },
+            7: {
+                campos: [],
+                textoExplicativo: "<h1>Quadro de Avaliação</h1><p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><p>Clique no link para conhecer mais sobre os artefatos e utilizar cartas que irão ajudar no entendimento e preenchimento junto aos alunos:<a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Acesse aqui</a>.</p>",
+                processo: "DSC",
+                exibirBlocoExplicacao: false
+            },
+            8: {
+                campos: ["enredo"],
+                textoExplicativo: null,
+                processo: "Design Estética",
+                exibirBlocoExplicacao: false
+            },
+            9: {
+                campos: ["sessoes"],
+                textoExplicativo: null,
+                processo: "Design Dinamica",
+                exibirBlocoExplicacao: false
+            },
+            10: {
+                campos: ["regrasAleatoriedade", "regrasRecompensas", "regrasFeedback"],
+                textoExplicativo: null,
+                processo: "Design Mecânica",
+                exibirBlocoExplicacao: false
+            },
+            11: {
+                campos: ["materiais"],
+                textoExplicativo: null,
+                processo: "Materiais",
+                exibirBlocoExplicacao: false
+            },
+            12: {
+                campos: [],
+                textoExplicativo: "<p>Prompt para IA: [tema] e [enredo]</p>",
+                processo: "Narrativa",
+                exibirBlocoExplicacao: false
+            },
+            13: {
+                campos: ["narrativa"],
+                textoExplicativo: null,
+                processo: "Narrativa Final",
+                exibirBlocoExplicacao: false
+            }
+            // Adicione outras etapas conforme necessário
         };
 
         // Objeto inicial
@@ -488,9 +547,10 @@
 
         function atualizarCampos() {
             const propriedades = editor.root.getChildEditors();
-            
+            const camposEtapa = etapasConfig[etapaAtual].campos || [];
+
             Object.keys(propriedades).forEach((campo) => {
-                if (etapasConfig[etapaAtual].includes(campo)) {
+                if (camposEtapa.includes(campo)) {
                     propriedades[campo].container.style.display = "block"; // Exibe o campo
                 } else {
                     propriedades[campo].container.style.display = "none"; // Oculta o campo
@@ -502,27 +562,12 @@
             const listaProcessos = document.getElementById("lista-processos");
             listaProcessos.innerHTML = "";
 
-            const processos = [
-                "Objetivos de aprendizagem",
-                "Design Estética",
-                "DSC",
-                "Design Estética",
-                "DSC",
-                "Design Dinâmica/Mecânica",
-                "DSC",
-                "Design Estética",
-                "Design Dinamica",
-                "Design Mecânica",
-                "Materiais",
-                "Narrativa",
-                "Narrativa Final"
-            ];
-            processos.forEach((processo, index) => {
+            Object.entries(etapasConfig).forEach(([etapa, config]) => {
                 let item = document.createElement("li");
-                item.textContent = `${index + 1}. ${processo}`;
+                item.textContent = `${etapa}. ${config.processo}`;
 
                 // Destaca a etapa atual
-                if (index + 1 === etapaAtual) {
+                if (parseInt(etapa) === etapaAtual) {
                     item.classList.add("destacado");
                 }
 
@@ -534,26 +579,35 @@
             const blocoExplicacao = document.getElementById("bloco-explicacao");
             const editorDiv = document.getElementById("editor");
 
-            if (blocosExplicacao[etapaAtual]) {
-                const textoExplicativo = substituirPlaceholders(blocosExplicacao[etapaAtual]);
+            const configEtapa = etapasConfig[etapaAtual];
+
+            // Exibe ou oculta o bloco de explicação
+            if (configEtapa.textoExplicativo) {
+                const textoExplicativo = substituirPlaceholders(configEtapa.textoExplicativo);
 
                 // Verifica se o texto contém placeholders (campos dinâmicos)
-                const contemCampos = /\[(.*?)\]/.test(blocosExplicacao[etapaAtual]);
+                const contemCampos = /\[(.*?)\]/.test(configEtapa.textoExplicativo);
 
                 // Exibe o botão de copiar apenas se o texto contiver campos dinâmicos
                 const botaoCopiar = contemCampos
                     ? `<button class="btn btn-secondary mt-3" onclick="copiarTextoExplicativo()">Copiar Texto</button>`
                     : "";
 
+                // Exibe a caixa de explicação
                 blocoExplicacao.innerHTML = `
                     <div>${textoExplicativo}</div>
                     ${botaoCopiar}
                 `;
                 blocoExplicacao.style.display = "block";
-                editorDiv.style.display = "none";
             } else {
                 blocoExplicacao.style.display = "none";
-                editorDiv.style.display = "block";
+            }
+
+            // Exibe ou oculta o formulário
+            if (configEtapa.exibirBlocoExplicacao || !configEtapa.textoExplicativo) {
+                editorDiv.style.display = "block"; // Exibe o formulário
+            } else {
+                editorDiv.style.display = "none"; // Oculta o formulário
             }
         }
 
