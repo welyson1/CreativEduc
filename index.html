@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor de JSON Dinâmico</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #editor {
+            margin-top: 20px;
+        }
+        pre {
+            background: #eee;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        /* Esconde os botões "Delete Last" e "Delete All" */
+        .json-editor-btntype-deletelast,
+        .json-editor-btntype-deleteall,
+        .json-editor-btntype-properties,
+        .json-editor-btn-moveup,
+        .json-editor-btn-movedown {
+            display: none !important;
+        }
+
+        #fluxo-processo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #lista-processos {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        #lista-processos li {
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 10px;
+            background-color: #ccc;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        #lista-processos li.destacado {
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
+        }
+
+        .bloco-explicacao {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .json-editor-btntype-delete {
+            color: white !important;
+            background-color: red !important;
+            border-color: darkred !important;
+        }
+
+        .json-editor-btntype-delete:hover {
+            background-color: darkred !important;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">CreativEduc</h1>
+        <div id="fluxo-processo" class="mt-3">
+            <ul id="lista-processos"></ul>
+        </div>
+        
+
+        <button class="btn btn-success mt-3" onclick="mudarEtapa(-1)">Etapa Anterior</button>
+        <button class="btn btn-primary mt-3" onclick="mudarEtapa(1)">Próxima Etapa</button>
+        <button class="btn btn-primary mt-3" onclick="saveData()">Salvar Dados</button>      
+          
+        <div id="editor"></div>
+        <div id="bloco-explicacao" class="bloco-explicacao" style="display: none;"></div>        
+        <h2 class="mt-4">JSON Salvo</h2>
+        <pre id="output"></pre>
+    </div>
+
+    <script>
+        let etapaAtual = 1; // Começa na primeira etapa
+
+        const etapasConfig = {
+            1: ["unidadeCurricular", "anoPeriodo", "conteudo", "habilidadesSociais", "habilidadesTecnicas", "funcoesCognitivasCriar", "funcoesCognitivasAplicar", "funcoesCognitivasSintetizar", "funcoesCognitivasEntender", "funcoesCognitivasAnalisar", "funcoesCognitivasLembrar"],
+            2: ["tema"],
+            3: [],
+            4: ["ambientacaoAtmosfera", "ambientacaoCenario", "ambientacaoEspaco"],
+            5: [],
+            6: ["personagens"],
+            7: [],
+            8: ["enredo"],
+            9: ["sessoes"],
+            10: ["regrasAleatoriedade", "regrasRecompensas", "regrasFeedback"],
+            11: ["materiais"],            
+            12: [],
+            13: ["narrativa"]
+        };
+
+        const blocosExplicacao = {
+            3: "<h1>Design Socialmente Consciente</h1><p>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
+            5: "<h2>Diagrama das Partes Interessadas</h2><p>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
+            7: "<h1>Quadro de Avaliação</h1><p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><p>Clique no link para conhecer mais sobre os artefatos e utilizar cartas que irão ajudar no entendimento e preenchimento junto aos alunos:<a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Acesse aqui</a>.</p>",
+            12: "<h1>Prompt para IA</h1>"
+        };
+
+        // Objeto inicial
+        let database = {
+            "unidadeCurricular": "",
+            "anoPeriodo": "",
+            "conteudo": "",
+            "habilidadesSociais": [],
+            "habilidadesTecnicas":[],
+            "funcoesCognitivasCriar": "",
+            "funcoesCognitivasAplicar": "",
+            "funcoesCognitivasSintetizar": "",
+            "funcoesCognitivasEntender": "",
+            "funcoesCognitivasAnalisar": "",
+            "funcoesCognitivasLembrar": "",
+            "ambientacaoAtmosfera": "",
+            "ambientacaoCenario": "",
+            "ambientacaoEspaco": [],
+            "enredo": [],
+            "tema": "",
+            "sessoes": [],
+            "regrasAleatoriedade": "",
+            "regrasRecompensas": "",
+            "regrasFeedback": "",
+            "personagens": [],
+            "materiais": [],
+            "narrativa": ""
+            };
+
+        // Carregar dados do localStorage
+        const savedData = localStorage.getItem("database");
+        if (savedData) {
+            database = JSON.parse(savedData);
+        }
+
+        // Configuração do JSON Editor
+        const editor = new JSONEditor(document.getElementById("editor"), {
+            schema: {
+                "type": "object",
+                "title":"Formulario para preencher",
+                "properties": {
+                    "unidadeCurricular": {
+                        "type": "string",
+                        "title":"Unidade Curricular",
+                        "description": "Nome da unidade curricular"
+                    },
+                    "anoPeriodo": {
+                        "type": "string",
+                        "title":"Ano/Periodo",
+                        "description": "Ano e período letivo"
+                    },
+                    "conteudo": {
+                        "type": "string",
+                        "title":"Conteúdo",
+                        "description": "Incluir um ou mais conteúdos da unidade curricular que deseja trabalhar no jogo."
+                    },
+                    "habilidadesSociais": {
+                        "type": "array",
+                        "title":"Habilidades sociais e interpessoais",
+                        "description": "Adicionar duas ou mais habilidades que deseja que o aluno desenvolva/exercite).",
+                        "items": {
+                            "type": "string",
+                            "title":"Habilidade Social",                            
+                            "enum":["Capacidade de entender e solucionar problemas", "Questões sociais e culturais por meio de análise de contexto de forma não técnica", "Análise do impacto nas mudanças sociais ocasionadas pela tecnologia", "Resolução de conflitos", "Visão sistêmica", "Consciência crítica e aguçada"],
+                            "ui": {
+                                "widget": "select"
+                            }
+                        }
+                    },
+                    "habilidadesTecnicas": {
+                        "type": "array",
+                        "title":"Habilidades Tecnicas",
+                        "items": {
+                            "type": "string",
+                            "title":"Habilidade Tecnicas",
+                            "description": "Habilidades Tecnicas a serem desenvolvidas",
+                            "ui": {
+                                "widget": "select"
+                            }
+                        }
+                    },
+                    "funcoesCognitivasCriar": {
+                        "type": "string",
+                        "title":"Funções Cognitivas: Criar",
+                        "description": "Funções cognitivas relacionadas à criação",
+                        "enum":["", "Planejar", "Combinar", "Compor", "Efetivar"],
+                        "ui": {
+                            "widget": "select"
+                        }
+                    },
+                    "funcoesCognitivasAplicar": {
+                        "type": "string",
+                        "title":"Funções Cognitivas: Aplicar",
+                        "description": "Funções cognitivas relacionadas à aplicação",
+                        "enum":["", "Classificar", "Experimentar", "Calcular", "Construir"],
+                        "ui": {
+                            "widget": "select"
+                        }
+                    },
+                    "funcoesCognitivasSintetizar": {
+                        "type": "string",
+                        "title":"Funções Cognitivas: Sintetizar",
+                        "description": "Funções cognitivas relacionadas à síntese",
+                        "enum":["", "Raquear", "Avaliar", "Concluir", "Agir"],
+                        "ui": {
+                            "widget": "select"
+                        }
+                    },
+                    "funcoesCognitivasEntender": {
+                        "type": "string",
+                        "title":"Funções Cognitivas: Entender",
+                        "description": "Funções cognitivas relacionadas ao entendimento",
+                        "enum":["", "Resumir", "Interpretar", "Prever", "Executar"],
+                        "ui": {
+                            "widget": "select"
+                        }
+                    },
+                    "funcoesCognitivasAnalisar": {
+                        "type": "string",
+                        "title":"Funções Cognitivas: Analisar",
+                        "description": "Funções cognitivas relacionadas à análise",
+                        "enum":["", "Ordenar", "Explicar", "Diferenciar", "Alcançar"],
+                        "ui": {
+                            "widget": "select"
+                        }
+                    },
+                    "funcoesCognitivasLembrar": {
+                        "type": "string",
+                        "title":"Funções Cognitivas: Lembrar",
+                        "description": "Funções cognitivas relacionadas à memória",
+                        "enum":["", "Listar", "Descrever", "Tabular", "Uso apropriado"],
+                        "ui": {
+                            "widget": "select"
+                        }
+                    },
+                    "ambientacaoAtmosfera": {
+                        "type": "string",
+                        "title":"Ambientação/Atmosfera",
+                        "description": "A atmosfera representa o clima em que a ação se desenvolve. É um momento feliz, triste? Relaxado, ou tenso? O que estava acontecendo naquele ambiente ou com aqueles personagens antes da cena começar (cada cenário e espaço poderão ser enriquecidos de detalhes, mas vinculado à atmosfera). Uma boa atmosfera prende a atenção do leitor, apelando para suas emoções e fazendo com que ele crie uma conexão emocional não só com os personagens, mas com todo o universo ficcional. Utilize o resultado da Torta de Valores para compor a atmosfera da narrativa. Pode ainda, neste campo, colocar palavras-chave caso queira usar a IA no final do preenchimento dos demais campos."
+                    },
+                    "ambientacaoCenario": {
+                        "type": "string",
+                        "title":"Ambientação Cenario",
+                        "description": "O cenário é um guia que orienta quanto à localização espacial (em uma casa, em um escritório, em uma cidade), localização temporal (século, passado, presente, futuro) e ainda contribui com peças-chave sobre o personagem apresentando sua condição financeira (classe e poder aquisitivo) e ainda pode refletir aspectos psicológicos ou detalhes sobre a personalidade. Utilize o resultado da Torta de Valores para compor o cenário da narrativa. Pode ainda, neste campo, colocar palavras-chave caso queira usar a IA no final do preenchimento dos demais campos."
+                    },
+                    "ambientacaoEspaco": {
+                        "type": "array",
+                        "title":"Ambientação Espaço",
+                        "description": "O espaço é a extensão do cenário, em que é possível descrever detalhes do ambiente físico, ambiente psicológico ou ambiente social em que as cenas ocorrem. O cenário pode ser decomposto em vários espaços. Por exemplo: se o cenário representa uma cidade, a narrativa pode conter cenas em bar (o bar é um espaço da cidade) que será descrito para uma determinada cena. Ainda aqui a Torta de Valores pode ser utilizada bem como palavras-chave para o prompt da IA.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "enredo": {
+                        "type": "array",
+                        "title":"Enredo",
+                        "items": {
+                            "type": "object",
+                            "title":"Enredo",
+                            "description":"O enredo é o encadeamento de eventos que compõem a sua narrativa. É a trama que desenha a narrativa. Todo enredo tem um núcleo, o conflito. É por meio desse conflito que se determina o nível de tensão (expectativa) para prender o leitor. É, ainda, no enredo que os acontecimentos da narrativa se desenrolam. A forma mais conhecida de enredo é a que começa pela exposição da situação, citando personagens, tempo e espaço. Os fatos são narrados a partir da complicação (desafios) e finaliza com o clímax da história. Na conclusão do enredo tem-se o desfecho (resolução do problema). Obs. como trata-se de um RPG, uma narrativa compartilhada, parte da narrativa e o desfecho irá depender do que os personagens farão no jogo. Os problemas, desafios e soluções podem ser extraídos do quadro de avaliação.  O texto destes campos (problema, desafio e solução), comporão o prompt para a IA ajudar na criação. Pode-se cadastrar mais de um problema, desafio e solução.",
+                            "properties": {
+                                "problemas": {
+                                    "type": "string",
+                                    "title":"Problemas"
+                                },
+                                "desafios": {
+                                    "type": "string",
+                                    "title":"Desafios"
+                                },
+                                "solucao": {
+                                    "type": "string",
+                                    "title":"Solução"
+                                }
+                            },
+                            "required": ["problemas", "desafios", "solucao"]
+                        }
+                    },
+                    "tema": {
+                        "type": "string",
+                        "title":"Tema",
+                        "description": "Definir um tema. O tema é a ideia central da narrativa, a mensagem de impacto que o escritor quer transmitir para o leitor. É a ideia sob a qual o texto será fundamentado. Ex. Viagem à Lua; Caça ao tesouro; Mundo virtual; Viagem no tempo; Seca no Nordeste; Em busca da felicidade etc. Se precisar de ideias para o tema, utilize o prompt que disponibilizamos para IA (copie e cole em uma ferramenta de IA)."
+                    },
+                    "sessoes": {
+                        "type": "array",                        
+                        "title":"Sessões",
+                        "description": "As sessões determinam quantas aulas serão utilizadas para o jogo, cada sessão equivale a 2 aulas. Cada sessão deve prever as cenas (desafios a serem realizados pelos jogadores) e possibilitar que todos participem, ou seja, que todos joguem pelo menos uma vez (isto é chamado de turno). A quantidade mínima de turnos deve ser a quantidade de jogadores por grupo. Pode acontecer de o jogo não prever turnos, apenas passar o desafio e o grupo resolve de acordo com as diretrizes do jogo.",
+                        "items": {
+                            "type": "object",
+                            "title":"Sessão",
+                            "properties": {
+                                "nome": {
+                                    "type": "string",                                    
+                                    "title":"Nome",
+                                },
+                                "cenas": {
+                                    "type": "array",                                    
+                                    "title":"Cenas",
+                                    "items": {
+                                        "type": "object",
+                                        "title":"Cena",
+                                        "properties": {
+                                            "descricao": {
+                                                "type": "string",
+                                                "title":"Descrição",
+                                            },
+                                            "turnos": {
+                                                "type": "integer",
+                                                "title":"Turnos",
+                                            }
+                                        },
+                                        "required": ["descricao", "turnos"]
+                                    }
+                                }
+                            },
+                            "required": ["nome", "cenas"]
+                        }
+                    },
+                    "regrasAleatoriedade": {
+                        "type": "string",
+                        "description": "Regras de aleatoriedade"
+                    },
+                    "regrasRecompensas": {
+                        "type": "string",
+                        "description": "Regras de recompensas"
+                    },
+                    "regrasFeedback": {
+                        "type": "string",
+                        "description": "Regras de feedback"
+                    },
+                    "personagens": {
+                        "type": "array",
+                        "title":"Personagens",
+                        "items": {
+                            "type": "object",
+                            "title":"Personagem",
+                            "properties": {
+                                "descricao": {
+                                    "type": "string",
+                                    "title":"Descrição",
+                                    "description": "Descrição do personagem"
+                                },
+                                "funcoes": {
+                                    "type": "array",
+                                    "title":"Função",
+                                    "items": {
+                                        "title":"Função",
+                                        "type": "string",
+                                        "description": "Funções a serem desempenhadas"
+                                    }
+                                },
+                                "categoria": {
+                                    "type": "string",
+                                    "title":"Categoria",
+                                    "description": "Categoria do personagem",
+                                    "enum":["Protagonistas", "Antagonistas", "Coadjuvantes", "Narrador"],
+                                    "ui": {
+                                        "widget": "select"
+                                    }
+                                },
+                                "habilidadesTecnicas": {
+                                    "type": "array",
+                                    "title":"Habilidades Tecnicas",
+                                    "items": {
+                                        "type": "object",
+                                        "title":"Habilidade Tecnica",
+                                        "properties": {
+                                            "descricao": {
+                                                "type": "string",
+                                                "description": "Descrição da habilidade técnica"
+                                            },
+                                            "parametros": {
+                                                "type": "string",
+                                                "description": "Parâmetros da habilidade técnica"
+                                            }
+                                        }
+                                    }
+                                },
+                                "habilidadesSociais": {
+                                    "type": "array",
+                                    "title":"Habilidades Sociais",
+                                    "items": {
+                                        "type": "object",
+                                        "title":"Habilidade Social",
+                                        "properties": {
+                                            "descricao": {
+                                                "type": "string",
+                                                "description": "Descrição da habilidade social"
+                                            },
+                                            "parametros": {
+                                                "type": "string",
+                                                "title":"Parametros",
+                                                "description": "Parâmetros da habilidade social"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "materiais": {
+                        "type": "array",
+                        "title":"Materiais",
+                        "items": {
+                            "type": "object",
+                            "title":"Material",
+                            "properties": {
+                                "descricao": {
+                                    "type": "string",
+                                    "title":"Descrição",
+                                    "description": "Descrição do material"
+                                },
+                                "quantidade": {
+                                    "type": "integer",
+                                    "title":"Quantidade",
+                                    "description": "Quantidade do material"
+                                }
+                            },
+                            "required": ["descricao", "quantidade"]
+                        }
+                    },
+                    "narrativa": {
+                        "type": "string",
+                        "description": "Narrativa principal"
+                    }
+                }
+            },
+            startval: database,
+            theme: "bootstrap4",
+            iconlib: "bootstrap4",
+            disable_collapse: true,
+            disable_edit_json: true,
+            disable_properties: false,
+            no_additional_properties: true,
+            prompt_before_delete: false,
+            array_controls_top:true
+        });
+
+        // Salvar dados no localStorage
+        function saveData() {            
+            const updatedData = editor.getValue();
+            localStorage.setItem("database", JSON.stringify(updatedData, null, 4));            
+            document.getElementById("output").textContent = JSON.stringify(updatedData, null, 4); 
+        }
+
+        function atualizarCampos() {
+            const propriedades = editor.root.getChildEditors();
+            
+            Object.keys(propriedades).forEach((campo) => {
+                if (etapasConfig[etapaAtual].includes(campo)) {
+                    propriedades[campo].container.style.display = "block"; // Exibe o campo
+                } else {
+                    propriedades[campo].container.style.display = "none"; // Oculta o campo
+                }
+            });
+        }
+
+        function atualizarFluxo() {
+            const listaProcessos = document.getElementById("lista-processos");
+            listaProcessos.innerHTML = "";
+
+            const processos = [
+                "Objetivos de aprendizagem",
+                "Design Estética",
+                "DSC",
+                "Design Estética",
+                "DSC",
+                "Design Dinâmica/Mecânica",
+                "DSC",
+                "Design Estética",
+                "Design Dinamica",
+                "Design Mecânica",
+                "Materiais",
+                "Narrativa",
+                "Narrativa Final"
+            ];
+            processos.forEach((processo, index) => {
+                let item = document.createElement("li");
+                item.textContent = `${index + 1}. ${processo}`;
+
+                // Destaca a etapa atual
+                if (index + 1 === etapaAtual) {
+                    item.classList.add("destacado");
+                }
+
+                listaProcessos.appendChild(item);
+            });
+        }
+
+        function exibirBlocoExplicacao() {
+            const blocoExplicacao = document.getElementById("bloco-explicacao");
+            const editorDiv = document.getElementById("editor");
+
+            if (blocosExplicacao[etapaAtual]) {
+                blocoExplicacao.innerHTML = blocosExplicacao[etapaAtual];
+                blocoExplicacao.style.display = "block";
+                editorDiv.style.display = "none";
+            } else {
+                blocoExplicacao.style.display = "none";
+                editorDiv.style.display = "block";
+            }
+        }
+        
+        // Atualiza ao mudar de etapa
+        function mudarEtapa(direcao) {
+            etapaAtual += direcao;
+            if (etapaAtual < 1) etapaAtual = 1;
+            if (etapaAtual > 13) etapaAtual = 13;
+            
+            atualizarFluxo();
+            atualizarCampos(); // Atualiza os campos do formulário
+            exibirBlocoExplicacao(); // Atualiza o bloco de explicação
+            
+            saveData();
+        }
+
+
+        // Exibir os dados ao carregar a página
+        document.getElementById("output").textContent = JSON.stringify(database, null, 4);
+
+        setTimeout(() => {
+            atualizarFluxo();
+            atualizarCampos();
+            exibirBlocoExplicacao();
+        }, 100);
+
+    </script>
+</body>
+</html>
