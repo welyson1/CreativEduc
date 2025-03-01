@@ -86,6 +86,14 @@
             background-color: darkred !important;
         }
 
+        .bloco-explicacao button {
+            margin-top: 10px;
+        }
+
+        .bloco-explicacao p {
+            margin: 5px 0;
+        }
+
     </style>
 </head>
 <body>
@@ -130,7 +138,7 @@
             3: "<h1>Design Socialmente Consciente</h1><p>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
             5: "<h2>Diagrama das Partes Interessadas</h2><p>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
             7: "<h1>Quadro de Avaliação</h1><p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><p>Clique no link para conhecer mais sobre os artefatos e utilizar cartas que irão ajudar no entendimento e preenchimento junto aos alunos:<a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Acesse aqui</a>.</p>",
-            12: "<h1>Prompt para IA</h1>"
+            12: "<p>Prompt para IA: [tema] e [enredo]</p>"
         };
 
         // Objeto inicial
@@ -467,12 +475,15 @@
             prompt_before_delete: false,
             array_controls_top:true
         });
-
-        // Salvar dados no localStorage
-        function saveData() {            
+        
+        function saveData() {
             const updatedData = editor.getValue();
-            localStorage.setItem("database", JSON.stringify(updatedData, null, 4));            
-            document.getElementById("output").textContent = JSON.stringify(updatedData, null, 4); 
+            database = updatedData; // Atualiza o objeto database com os novos valores
+            localStorage.setItem("database", JSON.stringify(updatedData, null, 4));
+            document.getElementById("output").textContent = JSON.stringify(updatedData, null, 4);
+
+            // Atualiza o bloco de explicação com os novos valores
+            exibirBlocoExplicacao();
         }
 
         function atualizarCampos() {
@@ -524,7 +535,20 @@
             const editorDiv = document.getElementById("editor");
 
             if (blocosExplicacao[etapaAtual]) {
-                blocoExplicacao.innerHTML = blocosExplicacao[etapaAtual];
+                const textoExplicativo = substituirPlaceholders(blocosExplicacao[etapaAtual]);
+
+                // Verifica se o texto contém placeholders (campos dinâmicos)
+                const contemCampos = /\[(.*?)\]/.test(blocosExplicacao[etapaAtual]);
+
+                // Exibe o botão de copiar apenas se o texto contiver campos dinâmicos
+                const botaoCopiar = contemCampos
+                    ? `<button class="btn btn-secondary mt-3" onclick="copiarTextoExplicativo()">Copiar Texto</button>`
+                    : "";
+
+                blocoExplicacao.innerHTML = `
+                    <div>${textoExplicativo}</div>
+                    ${botaoCopiar}
+                `;
                 blocoExplicacao.style.display = "block";
                 editorDiv.style.display = "none";
             } else {
@@ -532,20 +556,48 @@
                 editorDiv.style.display = "block";
             }
         }
+
+        function substituirPlaceholders(texto) {
+            return texto.replace(/\[(.*?)\]/g, (match, campo) => {
+                const valorCampo = database[campo];
+
+                // Se o campo for um array, formate os itens
+                if (Array.isArray(valorCampo)) {
+                    if (valorCampo.length === 0) return `[${campo} (vazio)]`;
+                    return valorCampo.map(item => {
+                        if (typeof item === "object") {
+                            // Se o item for um objeto, formate suas propriedades
+                            return Object.entries(item)
+                                .map(([key, value]) => `${key}: ${value}`)
+                                .join(", ");
+                        }
+                        return item;
+                    }).join(", ");
+                }
+
+                // Se não for um array, retorne o valor ou o placeholder
+                return valorCampo || `[${campo}]`;
+            });
+        }
+
+        function copiarTextoExplicativo() {
+            const blocoExplicacao = document.getElementById("bloco-explicacao");
+            const textoParaCopiar = blocoExplicacao.innerText; // Pega o texto sem HTML
+
+            // Usa a API de Clipboard para copiar o texto
+            navigator.clipboard.writeText(textoParaCopiar)
+                .then(() => alert("Texto copiado com sucesso!"))
+                .catch(() => alert("Erro ao copiar o texto."));
+        }
         
         // Atualiza ao mudar de etapa
         function mudarEtapa(direcao) {
-            etapaAtual += direcao;
-            if (etapaAtual < 1) etapaAtual = 1;
-            if (etapaAtual > 13) etapaAtual = 13;
-            
+            etapaAtual = Math.max(1, Math.min(13, etapaAtual + direcao));
             atualizarFluxo();
-            atualizarCampos(); // Atualiza os campos do formulário
+            atualizarCampos();
             exibirBlocoExplicacao(); // Atualiza o bloco de explicação
-            
-            saveData();
+            saveData(); // Salva os dados e atualiza o bloco de explicação
         }
-
 
         // Exibir os dados ao carregar a página
         document.getElementById("output").textContent = JSON.stringify(database, null, 4);
