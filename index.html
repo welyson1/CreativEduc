@@ -17,6 +17,9 @@
             <h1>CreativEduc</h1>
         </div>
         <div class="flex">
+            <div class="mt-3">
+                <ul id="lista-processos-mobile"></ul>
+            </div>
             <div class="form">
                 <div id="editor"></div>
                 <div id="bloco-explicacao" class="bloco-explicacao" style="display: none;"></div>
@@ -490,6 +493,19 @@
                 }
                 
                 listaProcessos.appendChild(item);
+            });
+
+            const listaProcessosMobile = document.getElementById("lista-processos-mobile");
+            listaProcessosMobile.innerHTML = "";
+
+            Object.entries(etapasConfig).forEach(([etapa, config]) => {
+                let item = document.createElement("li");
+                
+                listaProcessosMobile.appendChild(item);
+                if (parseInt(etapa) === etapaAtual) {
+                    item.innerHTML =
+                    `<span>${etapa}</span> ${config.processo}`;
+                }
             });
         }
 
