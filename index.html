@@ -14,12 +14,12 @@
 
     <!-- <div class="container"> -->
         <div id="header">
+            <span class="circle-logo"></span>
             <h1>CreativEduc</h1>
+            <span class="circle-logo"></span>
         </div>
         <div class="flex">
-            <div class="mt-3">
-                <ul id="lista-processos-mobile"></ul>
-            </div>
+            <ul id="lista-processos-mobile"></ul>
             <div class="form">
                 <div id="editor"></div>
                 <div id="bloco-explicacao" class="bloco-explicacao" style="display: none;"></div>
@@ -33,7 +33,6 @@
             <div id="fluxo-processo" class="mt-3">
                 <ul id="lista-processos"></ul>
             </div>
-        <!-- </div> -->
     </div>
 
     <script>
@@ -585,6 +584,7 @@
             atualizarCampos();
             exibirBlocoExplicacao(); // Atualiza o bloco de explicação
             saveData(); // Salva os dados e atualiza o bloco de explicação
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         // Exibir os dados ao carregar a página
