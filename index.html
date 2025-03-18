@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="pt">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +8,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
     <link rel="stylesheet" href="/index.css">
 </head>
-
 <body>
 
     <!-- <div class="container"> -->
@@ -126,7 +124,7 @@
             "anoPeriodo": "",
             "conteudo": "",
             "habilidadesSociais": [],
-            "habilidadesTecnicas": [],
+            "habilidadesTecnicas":[],
             "funcoesCognitivasCriar": "",
             "funcoesCognitivasAplicar": "",
             "funcoesCognitivasSintetizar": "",
@@ -145,7 +143,7 @@
             "personagens": [],
             "materiais": [],
             "narrativa": ""
-        };
+            };
 
         // Carregar dados do localStorage
         const savedData = localStorage.getItem("database");
@@ -157,31 +155,31 @@
         const editor = new JSONEditor(document.getElementById("editor"), {
             schema: {
                 "type": "object",
-                "title": "Formulario para preencher",
+                "title":"Formulario para preencher",
                 "properties": {
                     "unidadeCurricular": {
                         "type": "string",
-                        "title": "Unidade Curricular",
+                        "title":"Unidade Curricular",
                         "description": "Nome da unidade curricular"
                     },
                     "anoPeriodo": {
                         "type": "string",
-                        "title": "Ano/Periodo",
+                        "title":"Ano/Periodo",
                         "description": "Ano e período letivo"
                     },
                     "conteudo": {
                         "type": "string",
-                        "title": "Conteúdo",
+                        "title":"Conteúdo",
                         "description": "Incluir um ou mais conteúdos da unidade curricular que deseja trabalhar no jogo."
                     },
                     "habilidadesSociais": {
                         "type": "array",
-                        "title": "Habilidades sociais e interpessoais",
+                        "title":"Habilidades sociais e interpessoais",
                         "description": "Adicionar duas ou mais habilidades que deseja que o aluno desenvolva/exercite).",
                         "items": {
                             "type": "string",
-                            "title": "Habilidade Social",
-                            "enum": ["Capacidade de entender e solucionar problemas", "Questões sociais e culturais por meio de análise de contexto de forma não técnica", "Análise do impacto nas mudanças sociais ocasionadas pela tecnologia", "Resolução de conflitos", "Visão sistêmica", "Consciência crítica e aguçada"],
+                            "title":"Habilidade Social",                            
+                            "enum":["Capacidade de entender e solucionar problemas", "Questões sociais e culturais por meio de análise de contexto de forma não técnica", "Análise do impacto nas mudanças sociais ocasionadas pela tecnologia", "Resolução de conflitos", "Visão sistêmica", "Consciência crítica e aguçada"],
                             "ui": {
                                 "widget": "select"
                             }
@@ -189,10 +187,10 @@
                     },
                     "habilidadesTecnicas": {
                         "type": "array",
-                        "title": "Habilidades Tecnicas",
+                        "title":"Habilidades Tecnicas",
                         "items": {
                             "type": "string",
-                            "title": "Habilidade Tecnicas",
+                            "title":"Habilidade Tecnicas",
                             "description": "Habilidades Tecnicas a serem desenvolvidas",
                             "ui": {
                                 "widget": "select"
@@ -201,71 +199,71 @@
                     },
                     "funcoesCognitivasCriar": {
                         "type": "string",
-                        "title": "Funções Cognitivas: Criar",
+                        "title":"Funções Cognitivas: Criar",
                         "description": "Funções cognitivas relacionadas à criação",
-                        "enum": ["", "Planejar", "Combinar", "Compor", "Efetivar"],
+                        "enum":["", "Planejar", "Combinar", "Compor", "Efetivar"],
                         "ui": {
                             "widget": "select"
                         }
                     },
                     "funcoesCognitivasAplicar": {
                         "type": "string",
-                        "title": "Funções Cognitivas: Aplicar",
+                        "title":"Funções Cognitivas: Aplicar",
                         "description": "Funções cognitivas relacionadas à aplicação",
-                        "enum": ["", "Classificar", "Experimentar", "Calcular", "Construir"],
+                        "enum":["", "Classificar", "Experimentar", "Calcular", "Construir"],
                         "ui": {
                             "widget": "select"
                         }
                     },
                     "funcoesCognitivasSintetizar": {
                         "type": "string",
-                        "title": "Funções Cognitivas: Sintetizar",
+                        "title":"Funções Cognitivas: Sintetizar",
                         "description": "Funções cognitivas relacionadas à síntese",
-                        "enum": ["", "Raquear", "Avaliar", "Concluir", "Agir"],
+                        "enum":["", "Raquear", "Avaliar", "Concluir", "Agir"],
                         "ui": {
                             "widget": "select"
                         }
                     },
                     "funcoesCognitivasEntender": {
                         "type": "string",
-                        "title": "Funções Cognitivas: Entender",
+                        "title":"Funções Cognitivas: Entender",
                         "description": "Funções cognitivas relacionadas ao entendimento",
-                        "enum": ["", "Resumir", "Interpretar", "Prever", "Executar"],
+                        "enum":["", "Resumir", "Interpretar", "Prever", "Executar"],
                         "ui": {
                             "widget": "select"
                         }
                     },
                     "funcoesCognitivasAnalisar": {
                         "type": "string",
-                        "title": "Funções Cognitivas: Analisar",
+                        "title":"Funções Cognitivas: Analisar",
                         "description": "Funções cognitivas relacionadas à análise",
-                        "enum": ["", "Ordenar", "Explicar", "Diferenciar", "Alcançar"],
+                        "enum":["", "Ordenar", "Explicar", "Diferenciar", "Alcançar"],
                         "ui": {
                             "widget": "select"
                         }
                     },
                     "funcoesCognitivasLembrar": {
                         "type": "string",
-                        "title": "Funções Cognitivas: Lembrar",
+                        "title":"Funções Cognitivas: Lembrar",
                         "description": "Funções cognitivas relacionadas à memória",
-                        "enum": ["", "Listar", "Descrever", "Tabular", "Uso apropriado"],
+                        "enum":["", "Listar", "Descrever", "Tabular", "Uso apropriado"],
                         "ui": {
                             "widget": "select"
                         }
                     },
                     "ambientacaoAtmosfera": {
                         "type": "string",
-                        "title": "Ambientação/Atmosfera",
+                        "title":"Ambientação/Atmosfera",
                         "description": "A atmosfera representa o clima em que a ação se desenvolve. É um momento feliz, triste? Relaxado, ou tenso? O que estava acontecendo naquele ambiente ou com aqueles personagens antes da cena começar (cada cenário e espaço poderão ser enriquecidos de detalhes, mas vinculado à atmosfera). Uma boa atmosfera prende a atenção do leitor, apelando para suas emoções e fazendo com que ele crie uma conexão emocional não só com os personagens, mas com todo o universo ficcional. Utilize o resultado da Torta de Valores para compor a atmosfera da narrativa. Pode ainda, neste campo, colocar palavras-chave caso queira usar a IA no final do preenchimento dos demais campos."
                     },
                     "ambientacaoCenario": {
                         "type": "string",
-                        "title": "Ambientação Cenario",
+                        "title":"Ambientação Cenario",
                         "description": "O cenário é um guia que orienta quanto à localização espacial (em uma casa, em um escritório, em uma cidade), localização temporal (século, passado, presente, futuro) e ainda contribui com peças-chave sobre o personagem apresentando sua condição financeira (classe e poder aquisitivo) e ainda pode refletir aspectos psicológicos ou detalhes sobre a personalidade. Utilize o resultado da Torta de Valores para compor o cenário da narrativa. Pode ainda, neste campo, colocar palavras-chave caso queira usar a IA no final do preenchimento dos demais campos."
                     },
                     "ambientacaoEspaco": {
                         "type": "array",
-                        "title": "Ambientação Espaço",
+                        "title":"Ambientação Espaço",
                         "description": "O espaço é a extensão do cenário, em que é possível descrever detalhes do ambiente físico, ambiente psicológico ou ambiente social em que as cenas ocorrem. O cenário pode ser decomposto em vários espaços. Por exemplo: se o cenário representa uma cidade, a narrativa pode conter cenas em bar (o bar é um espaço da cidade) que será descrito para uma determinada cena. Ainda aqui a Torta de Valores pode ser utilizada bem como palavras-chave para o prompt da IA.",
                         "items": {
                             "type": "string"
@@ -273,23 +271,23 @@
                     },
                     "enredo": {
                         "type": "array",
-                        "title": "Enredo",
+                        "title":"Enredo",
                         "items": {
                             "type": "object",
-                            "title": "Enredo",
-                            "description": "O enredo é o encadeamento de eventos que compõem a sua narrativa. É a trama que desenha a narrativa. Todo enredo tem um núcleo, o conflito. É por meio desse conflito que se determina o nível de tensão (expectativa) para prender o leitor. É, ainda, no enredo que os acontecimentos da narrativa se desenrolam. A forma mais conhecida de enredo é a que começa pela exposição da situação, citando personagens, tempo e espaço. Os fatos são narrados a partir da complicação (desafios) e finaliza com o clímax da história. Na conclusão do enredo tem-se o desfecho (resolução do problema). Obs. como trata-se de um RPG, uma narrativa compartilhada, parte da narrativa e o desfecho irá depender do que os personagens farão no jogo. Os problemas, desafios e soluções podem ser extraídos do quadro de avaliação.  O texto destes campos (problema, desafio e solução), comporão o prompt para a IA ajudar na criação. Pode-se cadastrar mais de um problema, desafio e solução.",
+                            "title":"Enredo",
+                            "description":"O enredo é o encadeamento de eventos que compõem a sua narrativa. É a trama que desenha a narrativa. Todo enredo tem um núcleo, o conflito. É por meio desse conflito que se determina o nível de tensão (expectativa) para prender o leitor. É, ainda, no enredo que os acontecimentos da narrativa se desenrolam. A forma mais conhecida de enredo é a que começa pela exposição da situação, citando personagens, tempo e espaço. Os fatos são narrados a partir da complicação (desafios) e finaliza com o clímax da história. Na conclusão do enredo tem-se o desfecho (resolução do problema). Obs. como trata-se de um RPG, uma narrativa compartilhada, parte da narrativa e o desfecho irá depender do que os personagens farão no jogo. Os problemas, desafios e soluções podem ser extraídos do quadro de avaliação.  O texto destes campos (problema, desafio e solução), comporão o prompt para a IA ajudar na criação. Pode-se cadastrar mais de um problema, desafio e solução.",
                             "properties": {
                                 "problemas": {
                                     "type": "string",
-                                    "title": "Problemas"
+                                    "title":"Problemas"
                                 },
                                 "desafios": {
                                     "type": "string",
-                                    "title": "Desafios"
+                                    "title":"Desafios"
                                 },
                                 "solucao": {
                                     "type": "string",
-                                    "title": "Solução"
+                                    "title":"Solução"
                                 }
                             },
                             "required": ["problemas", "desafios", "solucao"]
@@ -297,35 +295,35 @@
                     },
                     "tema": {
                         "type": "string",
-                        "title": "Tema",
+                        "title":"Tema",
                         "description": "Definir um tema. O tema é a ideia central da narrativa, a mensagem de impacto que o escritor quer transmitir para o leitor. É a ideia sob a qual o texto será fundamentado. Ex. Viagem à Lua; Caça ao tesouro; Mundo virtual; Viagem no tempo; Seca no Nordeste; Em busca da felicidade etc. Se precisar de ideias para o tema, utilize o prompt que disponibilizamos para IA (copie e cole em uma ferramenta de IA)."
                     },
                     "sessoes": {
-                        "type": "array",
-                        "title": "Sessões",
+                        "type": "array",                        
+                        "title":"Sessões",
                         "description": "As sessões determinam quantas aulas serão utilizadas para o jogo, cada sessão equivale a 2 aulas. Cada sessão deve prever as cenas (desafios a serem realizados pelos jogadores) e possibilitar que todos participem, ou seja, que todos joguem pelo menos uma vez (isto é chamado de turno). A quantidade mínima de turnos deve ser a quantidade de jogadores por grupo. Pode acontecer de o jogo não prever turnos, apenas passar o desafio e o grupo resolve de acordo com as diretrizes do jogo.",
                         "items": {
                             "type": "object",
-                            "title": "Sessão",
+                            "title":"Sessão",
                             "properties": {
                                 "nome": {
-                                    "type": "string",
-                                    "title": "Nome",
+                                    "type": "string",                                    
+                                    "title":"Nome",
                                 },
                                 "cenas": {
-                                    "type": "array",
-                                    "title": "Cenas",
+                                    "type": "array",                                    
+                                    "title":"Cenas",
                                     "items": {
                                         "type": "object",
-                                        "title": "Cena",
+                                        "title":"Cena",
                                         "properties": {
                                             "descricao": {
                                                 "type": "string",
-                                                "title": "Descrição",
+                                                "title":"Descrição",
                                             },
                                             "turnos": {
                                                 "type": "integer",
-                                                "title": "Turnos",
+                                                "title":"Turnos",
                                             }
                                         },
                                         "required": ["descricao", "turnos"]
@@ -349,40 +347,40 @@
                     },
                     "personagens": {
                         "type": "array",
-                        "title": "Personagens",
+                        "title":"Personagens",
                         "items": {
                             "type": "object",
-                            "title": "Personagem",
+                            "title":"Personagem",
                             "properties": {
                                 "descricao": {
                                     "type": "string",
-                                    "title": "Descrição",
+                                    "title":"Descrição",
                                     "description": "Descrição do personagem"
                                 },
                                 "funcoes": {
                                     "type": "array",
-                                    "title": "Função",
+                                    "title":"Função",
                                     "items": {
-                                        "title": "Função",
+                                        "title":"Função",
                                         "type": "string",
                                         "description": "Funções a serem desempenhadas"
                                     }
                                 },
                                 "categoria": {
                                     "type": "string",
-                                    "title": "Categoria",
+                                    "title":"Categoria",
                                     "description": "Categoria do personagem",
-                                    "enum": ["Protagonistas", "Antagonistas", "Coadjuvantes", "Narrador"],
+                                    "enum":["Protagonistas", "Antagonistas", "Coadjuvantes", "Narrador"],
                                     "ui": {
                                         "widget": "select"
                                     }
                                 },
                                 "habilidadesTecnicas": {
                                     "type": "array",
-                                    "title": "Habilidades Tecnicas",
+                                    "title":"Habilidades Tecnicas",
                                     "items": {
                                         "type": "object",
-                                        "title": "Habilidade Tecnica",
+                                        "title":"Habilidade Tecnica",
                                         "properties": {
                                             "descricao": {
                                                 "type": "string",
@@ -397,10 +395,10 @@
                                 },
                                 "habilidadesSociais": {
                                     "type": "array",
-                                    "title": "Habilidades Sociais",
+                                    "title":"Habilidades Sociais",
                                     "items": {
                                         "type": "object",
-                                        "title": "Habilidade Social",
+                                        "title":"Habilidade Social",
                                         "properties": {
                                             "descricao": {
                                                 "type": "string",
@@ -408,7 +406,7 @@
                                             },
                                             "parametros": {
                                                 "type": "string",
-                                                "title": "Parametros",
+                                                "title":"Parametros",
                                                 "description": "Parâmetros da habilidade social"
                                             }
                                         }
@@ -419,19 +417,19 @@
                     },
                     "materiais": {
                         "type": "array",
-                        "title": "Materiais",
+                        "title":"Materiais",
                         "items": {
                             "type": "object",
-                            "title": "Material",
+                            "title":"Material",
                             "properties": {
                                 "descricao": {
                                     "type": "string",
-                                    "title": "Descrição",
+                                    "title":"Descrição",
                                     "description": "Descrição do material"
                                 },
                                 "quantidade": {
                                     "type": "integer",
-                                    "title": "Quantidade",
+                                    "title":"Quantidade",
                                     "description": "Quantidade do material"
                                 }
                             },
@@ -452,9 +450,9 @@
             disable_properties: false,
             no_additional_properties: true,
             prompt_before_delete: false,
-            array_controls_top: true
+            array_controls_top:true
         });
-
+        
         function saveData() {
             const updatedData = editor.getValue();
             database = updatedData; // Atualiza o objeto database com os novos valores
@@ -484,13 +482,13 @@
 
             Object.entries(etapasConfig).forEach(([etapa, config]) => {
                 let item = document.createElement("li");
-                item.innerHTML =
-                `<span style="background-color: ${parseInt(etapa) <= etapaAtual ? 'rgb(15, 173, 86)' : 'transparent'}; color: ${parseInt(etapa) <= etapaAtual ? 'white' : 'black'}">${etapa}</span> ${config.processo}`;
-                
+                item.textContent = `${etapa}. ${config.processo}`;
+
+                // Destaca a etapa atual
                 if (parseInt(etapa) === etapaAtual) {
                     item.classList.add("destacado");
                 }
-                
+
                 listaProcessos.appendChild(item);
             });
 
@@ -576,7 +574,7 @@
                 .then(() => alert("Texto copiado com sucesso!"))
                 .catch(() => alert("Erro ao copiar o texto."));
         }
-
+        
         // Atualiza ao mudar de etapa
         function mudarEtapa(direcao) {
             etapaAtual = Math.max(1, Math.min(13, etapaAtual + direcao));
@@ -598,5 +596,4 @@
 
     </script>
 </body>
-
 </html>
