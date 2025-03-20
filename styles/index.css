@@ -71,7 +71,7 @@ pre {
   list-style: none;
   padding: 0;
   display: flex;
-  justify-content: center;  
+  justify-content: center;
   flex-direction: column;
   flex-wrap: wrap;
   gap: 22px;
@@ -98,7 +98,6 @@ pre {
   font-weight: bold;
 }
 #lista-processos li span {
-  background-color: red;
   margin-right: 10px;
 }
 .circle-logo {
