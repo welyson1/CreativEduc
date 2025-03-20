@@ -485,7 +485,7 @@
                 // item.textContent = `${etapa}. ${config.processo}`;
 
                 item.innerHTML =
-                `<span style="background-color: ${parseInt(etapa) <= etapaAtual ? 'rgb(15, 173, 86)' : 'transparent'}; color: ${parseInt(etapa) <= etapaAtual ? 'white' : 'black'}">${etapa}</span> ${config.processo}`;
+                `<span style="background-color: ${parseInt(etapa) <= etapaAtual ? 'rgb(15, 173, 86)' : 'transparent'}; color: ${parseInt(etapa) <= etapaAtual ? 'white' : 'black'}">${etapa}</span> <button class="menu-button" style="color: ${parseInt(etapa) === etapaAtual ? 'rgb(15, 173, 86)' : ''};" onclick="etapaAtual = ${etapa}; atualizarFluxo(); atualizarCampos(); exibirBlocoExplicacao(); saveData();">${config.processo}</button>`;
 
                 // Destaca a etapa atual
                 if (parseInt(etapa) === etapaAtual) {
