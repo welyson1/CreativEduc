@@ -71,13 +71,14 @@ pre {
   list-style: none;
   padding: 0;
   display: flex;
-  justify-content: center;
+  justify-content: center;  
   flex-direction: column;
   flex-wrap: wrap;
   gap: 22px;
   position: sticky;
   top: 0;
   padding-top: 20px;
+  font-size: 18px;
 }
 
 #lista-processos-mobile {
@@ -95,6 +96,10 @@ pre {
 #lista-processos li {
   text-align: left;
   font-weight: bold;
+}
+#lista-processos li span {
+  background-color: red;
+  margin-right: 10px;
 }
 .circle-logo {
   display: inline-block;
@@ -159,6 +164,16 @@ li span::after {
 
 .bloco-explicacao p {
   margin: 5px 0;
+}
+
+@media (max-width: 1024px) {
+  #fluxo-processo {
+    padding: 4px;
+  }
+  
+  #lista-processos {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 768px) {
