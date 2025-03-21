@@ -6,6 +6,16 @@ body {
 ul li {
   list-style-type: none;
 }
+.btn-secondary {
+  margin-left: 10px !important;
+}
+.json-editor-btn-add {
+  background-color: green;
+  border-color: darkgreen;
+}
+.json-editor-btn-add:hover {
+  background-color: darkgreen;
+}
 .container {
   max-width: 800px;
   margin: auto;
@@ -51,6 +61,8 @@ pre {
   justify-content: space-between;
   gap: 20px;
   margin-left: 12%;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .form {
@@ -208,5 +220,6 @@ li span::after {
 
   #lista-processos-mobile {
     display: block;
+    padding-left: 20px;
   }
 }
