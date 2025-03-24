@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Imprimir Narrativa</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2cm;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .logo {
+            width: 200px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .narrative-content {
+            white-space: pre-wrap;
+            text-align: justify;
+            font-size: 14px;
+        }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+            
+            .narrative-content {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img src="/vdxGNAx.png" alt="Logo" class="logo">
+    <div class="narrative-content" id="narrative"></div>
+
+    <div class="no-print" style="text-align: center; margin-top: 30px;">
+        <button onclick="window.print()" style="padding: 10px 20px; cursor: pointer;">
+            Salvar como PDF
+        </button>
+        <button onclick="window.close()" style="padding: 10px 20px; margin-left: 10px; cursor: pointer;">
+            Fechar
+        </button>
+    </div>
+
+    <script>
+        // Recupera a narrativa do localStorage
+        const narrative = localStorage.getItem('printNarrative');
+        
+        if(narrative) {
+            document.getElementById('narrative').textContent = narrative;
+            localStorage.removeItem('printNarrative'); // Limpa após uso
+            window.print(); // Aciona impressão automaticamente
+        } else {
+            document.body.innerHTML = '<h1>Erro: Narrativa não encontrada</h1>';
+            setTimeout(() => window.close(), 2000);
+        }
+    </script>
+</body>
+</html>

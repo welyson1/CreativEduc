@@ -223,3 +223,98 @@ li span::after {
     padding-left: 20px;
   }
 }
+
+
+
+/* Estilos gerais */
+.dsc-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Títulos principais */
+.dsc-main-title {
+  color: #2c3e50;
+  font-size: 2.5em;
+  border-bottom: 3px solid #0FAD56;
+  padding-bottom: 10px;
+  margin: 40px 0 30px;
+}
+
+
+/* Parágrafos */
+.dsc-content-text {
+  font-size: 1.1em;
+  margin-bottom: 25px;
+  color: #4a4a4a;
+  line-height: 1.8;
+}
+
+/* Container de imagens */
+.dsc-image-wrapper {
+  text-align: center;
+  margin: 40px 0;
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Imagens */
+.dsc-content-image {
+  max-width: 90%;
+  height: auto;
+  border-radius: 5px;
+  margin: 15px 0;
+  transition: transform 0.3s ease;
+}
+
+.dsc-content-image:hover {
+  transform: scale(1.02);
+}
+
+/* Legenda das imagens */
+.dsc-image-caption {
+  color: #7f8c8d;
+  font-size: 0.9em;
+  margin-top: 10px;
+  font-style: italic;
+}
+
+
+.dsc-action-link:hover {
+  background: #0FAD56;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* Destaque em parágrafos importantes */
+.dsc-highlight-text {
+  background: #ecf5ff;
+  padding: 20px;
+  border-left: 4px solid #0FAD56;
+  margin: 25px 0;
+  border-radius: 4px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .dsc-container {
+    padding: 15px;
+  }
+  
+  .dsc-main-title {
+    font-size: 2em;
+  }
+  
+  .dsc-section-heading {
+    font-size: 1.5em;
+  }
+  
+  .dsc-content-image {
+    max-width: 100%;
+  }
+}

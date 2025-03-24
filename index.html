@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor de JSON Dinâmico</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>    
     <link rel="stylesheet" href="./styles/index.css">
     <style>
         .logo {
@@ -35,11 +35,19 @@
             <button class="btn btn-success mt-3" onclick="mudarEtapa(-1)">Etapa Anterior</button>
             <button class="btn btn-primary mt-3" onclick="mudarEtapa(1)">Próxima Etapa</button>
             <button class="btn btn-primary mt-3" onclick="saveData()">Salvar Dados</button>
+
+            <!-- Novos botões -->
+            <input type="file" id="jsonFileInput" style="display: none;" accept=".json">
+            <button class="btn btn-info mt-3" onclick="document.getElementById('jsonFileInput').click()">Carregar Dados</button>
+            <button class="btn btn-warning mt-3" onclick="downloadJSON()">Baixar JSON</button>    
+            <!-- Botão existente -->
+            <button class="btn btn-danger mt-3" onclick="preparePrint()">Salvar Narrativa em PDF</button>      
         </div>
 
         <div id="fluxo-processo" class="mt-3">
             <ul id="lista-processos"></ul>
         </div>
+        
     </div>
 
     <script>
@@ -47,20 +55,20 @@
 
         const etapasConfig = {
             1: {
-                campos: ["unidadeCurricular", "anoPeriodo", "conteudo", "conteudoInterdisciplinar", "habilidadesSociais", "habilidadesTecnicas", "funcoesCognitivasCriar", "funcoesCognitivasAplicar", "funcoesCognitivasSintetizar", "funcoesCognitivasEntender", "funcoesCognitivasAnalisar", "funcoesCognitivasLembrar"],
+                campos: ["unidadeCurricular", "anoPeriodo", "conteudo", "conteudoInterdisciplinar", "habilidadesSociais", "habilidadesTecnicas", "funcoesAprendizagem"],
                 textoExplicativo: null,
                 processo: "Objetivos de aprendizagem",
                 exibirBlocoExplicacao: false
             },
             2: {
                 campos: ["tema"],
-                //textoExplicativo: "O tema da sua história é [tema]. Esse tema será a base para o desenvolvimento do enredo e dos personagens. Certifique-se de que o tema seja claro e envolvente!",
+                textoExplicativo: null,
                 processo: "Design Estética",
                 exibirBlocoExplicacao: true
             },
             3: {
                 campos: [],
-                textoExplicativo: "<h1>Design Socialmente Consciente</h1><p>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
+                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Design Socialmente Consciente</h1>  <p class='dsc-content-text'>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/SFAuNny.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/ALsQBrC.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/wpNWH85.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/q8TDi6G.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/dgviYhR.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/NEbg5MR.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/lpZZ2TJ.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/FLDbdN6.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div></div>",
                 processo: "DSC",
                 exibirBlocoExplicacao: false
             },
@@ -72,7 +80,7 @@
             },
             5: {
                 campos: [],
-                textoExplicativo: "<h2>Diagrama das Partes Interessadas</h2><p>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Clique aqui para conhecer mais sobre os artefatos</a>",
+                textoExplicativo: "<div class='dsc-container'>  <h1 class='dsc-main-title'>Diagrama das Partes Interessadas</h1>  <p class='dsc-content-text'>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/smU46nV.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/MCQjCxA.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div></div>",
                 processo: "DSC",
                 exibirBlocoExplicacao: false
             },
@@ -84,7 +92,7 @@
             },
             7: {
                 campos: [],
-                textoExplicativo: "<h1>Quadro de Avaliação</h1><p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p><p>Clique no link para conhecer mais sobre os artefatos e utilizar cartas que irão ajudar no entendimento e preenchimento junto aos alunos:<a href='https://www.canva.com/design/DAGXt_hhuWQ/Oaa22zPXq_sJUajS-VwV8g/edit?utm_content=DAGXt_hhuWQ&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton' target='_blank'>Acesse aqui</a>.</p>",
+                textoExplicativo: "<div class='dsc-container'>  <h1 class='dsc-main-title'>Quadro de Avaliação</h1>  <p class='dsc-content-text'>    <p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/jAqts72.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div></div>",
                 processo: "DSC",
                 exibirBlocoExplicacao: false
             },
@@ -113,13 +121,18 @@
                 exibirBlocoExplicacao: false
             },
             12: {
-                campos: [],
-                //textoExplicativo: "<p>Prompt para IA: [tema] e [enredo]</p>",
-                textoExplicativo: "<p>Crie um RPG educacional focado na aprendizagem de [funcoesCognitivasCriar], no contexto de [conteúdo]. O jogo deve estimular o desenvolvimento das habilidades sociais [habilidadesSociais]. O RPG utilizará o tema [tema] e apresentará uma atmosfera [ambientacaoAtmosfera]. O cenário principal será [ambientacaoCenario], com espaços jogáveis em [ambientacaoEspaco]. Os jogadores controlarão [personagens] personagens, que enfrentarão desafios relacionados a [enredo.problemas]. Para avançar, precisarão superar [enredo.desafios], explorando possíveis [enredo.solucao]. Cada protagonista terá [habilidadesTecnicas] e [habilidadesSociais] específicas. Além disso, defina parâmetros de caracterização dos personagens e estabeleça regras de aleatoriedade para eventos e desafios do jogo.</p><p>Por favor, acesse <a href='https://chatgpt.com/' target='_blank'>https://chatgpt.com/</a> e cole este prompt para gerar a narrativa do RPG!</p>",
-                processo: "Narrativa",
+                campos: [],                
+                textoExplicativo: "<div class='dsc-container'>  <h1 class='dsc-main-title'>Escada semiotica</h1>  <p class='dsc-content-text'>Texto para colocar</p>  <div class='dsc-image-wrapper'>   <img class='dsc-content-image' src='https://i.imgur.com/00BsA8k.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/FpTZ2ky.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div></div>",
+                processo: "NOVA PAGINA SEM NOME",
                 exibirBlocoExplicacao: false
             },
             13: {
+                campos: [],                
+                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Criação da narrativa</h1>  <p class='dsc-content-text'> Crie um RPG educacional focado na aprendizagem de <strong>[funcoesAprendizagem.Criar]</strong>, no contexto de <strong>[conteudo]</strong>. O jogo deve estimular o desenvolvimento das habilidades sociais: <ul>[habilidadesSociais]</ul> O RPG utilizará o tema <strong>[tema]</strong> e apresentará: - Atmosfera: <em>[ambientacaoAtmosfera]</em> - Cenário principal: <em>[ambientacaoCenario]</em> - Espaços jogáveis: <em>[ambientacaoEspaco]</em> Os jogadores controlarão: <div class='personagens'>[personagens]</div> Desafios principais: <div class='enredo'>[enredo.problema]</div> Cada protagonista terá habilidades técnicas: <em>[habilidadesTecnicas]</em> e sociais: <em>[habilidadesSociais]</em>.</p><p>Acesse <a href='https://chatgpt.com/' target='_blank'>https://chatgpt.com/</a> e cole este prompt!</p></div>",
+                processo: "Narrativa",
+                exibirBlocoExplicacao: false
+            },
+            14: {
                 campos: ["narrativa"],
                 textoExplicativo: null,
                 processo: "Narrativa Final",
@@ -136,16 +149,20 @@
             "conteudoInterdisciplinar": "",
             "habilidadesSociais": [],
             "habilidadesTecnicas": [],
-            "funcoesCognitivasCriar": "",
-            "funcoesCognitivasAplicar": "",
-            "funcoesCognitivasSintetizar": "",
-            "funcoesCognitivasEntender": "",
-            "funcoesCognitivasAnalisar": "",
-            "funcoesCognitivasLembrar": "",
+            "funcoesAprendizagem": {
+                "Criar": "",
+                "Aplicar": "",
+                "Sintetizar": "",
+                "Entender": "",
+                "Analisar": "",
+                "Lembrar": ""
+            },
             "ambientacaoAtmosfera": "",
             "ambientacaoCenario": "",
             "ambientacaoEspaco": [],
-            "enredo": [],
+            "enredo": {
+                "problema": []
+            },
             "tema": "",
             "sessoes": [],
             "regrasAleatoriedade": "",
@@ -213,58 +230,52 @@
                             }
                         }
                     },
-                    "funcoesCognitivasCriar": {
-                        "type": "string",
-                        "title": "Funções Cognitivas: Criar",
-                        "description": "Funções cognitivas relacionadas à criação",
-                        "enum": ["", "Planejar", "Combinar", "Compor", "Efetivar"],
-                        "ui": {
-                            "widget": "select"
-                        }
-                    },
-                    "funcoesCognitivasAplicar": {
-                        "type": "string",
-                        "title": "Funções Cognitivas: Aplicar",
-                        "description": "Funções cognitivas relacionadas à aplicação",
-                        "enum": ["", "Classificar", "Experimentar", "Calcular", "Construir"],
-                        "ui": {
-                            "widget": "select"
-                        }
-                    },
-                    "funcoesCognitivasSintetizar": {
-                        "type": "string",
-                        "title": "Funções Cognitivas: Sintetizar",
-                        "description": "Funções cognitivas relacionadas à síntese",
-                        "enum": ["", "Raquear", "Avaliar", "Concluir", "Agir"],
-                        "ui": {
-                            "widget": "select"
-                        }
-                    },
-                    "funcoesCognitivasEntender": {
-                        "type": "string",
-                        "title": "Funções Cognitivas: Entender",
-                        "description": "Funções cognitivas relacionadas ao entendimento",
-                        "enum": ["", "Resumir", "Interpretar", "Prever", "Executar"],
-                        "ui": {
-                            "widget": "select"
-                        }
-                    },
-                    "funcoesCognitivasAnalisar": {
-                        "type": "string",
-                        "title": "Funções Cognitivas: Analisar",
-                        "description": "Funções cognitivas relacionadas à análise",
-                        "enum": ["", "Ordenar", "Explicar", "Diferenciar", "Alcançar"],
-                        "ui": {
-                            "widget": "select"
-                        }
-                    },
-                    "funcoesCognitivasLembrar": {
-                        "type": "string",
-                        "title": "Funções Cognitivas: Lembrar",
-                        "description": "Funções cognitivas relacionadas à memória",
-                        "enum": ["", "Listar", "Descrever", "Tabular", "Uso apropriado"],
-                        "ui": {
-                            "widget": "select"
+                    "funcoesAprendizagem": {
+                        "type": "object",
+                        "title": "Funções de Aprendizagem",
+                        "properties": {
+                            "Criar": {
+                                "type": "string",
+                                "title": "Criar",
+                                "description": "Funções cognitivas relacionadas à criação",
+                                "enum": ["", "Planejar", "Combinar", "Compor", "Efetivar"],
+                                "ui": { "widget": "select" }
+                            },
+                            "Aplicar": {
+                                "type": "string",
+                                "title": "Aplicar",
+                                "description": "Funções cognitivas relacionadas à aplicação",
+                                "enum": ["", "Classificar", "Experimentar", "Calcular", "Construir"],
+                                "ui": { "widget": "select" }
+                            },
+                            "Sintetizar": {
+                                "type": "string",
+                                "title": "Sintetizar",
+                                "description": "Funções cognitivas relacionadas à síntese",
+                                "enum": ["", "Raquear", "Avaliar", "Concluir", "Agir"],
+                                "ui": { "widget": "select" }
+                            },
+                            "Entender": {
+                                "type": "string",
+                                "title": "Entender",
+                                "description": "Funções cognitivas relacionadas ao entendimento",
+                                "enum": ["", "Resumir", "Interpretar", "Prever", "Executar"],
+                                "ui": { "widget": "select" }
+                            },
+                            "Analisar": {
+                                "type": "string",
+                                "title": "Analisar",
+                                "description": "Funções cognitivas relacionadas à análise",
+                                "enum": ["", "Ordenar", "Explicar", "Diferenciar", "Alcançar"],
+                                "ui": { "widget": "select" }
+                            },
+                            "Lembrar": {
+                                "type": "string",
+                                "title": "Lembrar",
+                                "description": "Funções cognitivas relacionadas à memória",
+                                "enum": ["", "Listar", "Descrever", "Tabular", "Uso apropriado"],
+                                "ui": { "widget": "select" }
+                            }
                         }
                     },
                     "ambientacaoAtmosfera": {
@@ -286,28 +297,35 @@
                         }
                     },
                     "enredo": {
-                        "type": "array",
+                        "type": "object",
                         "title": "Enredo",
-                        "items": {
-                            "type": "object",
-                            "title": "Enredo",
-                            "description": "O enredo é o encadeamento de eventos que compõem a sua narrativa. É a trama que desenha a narrativa. Todo enredo tem um núcleo, o conflito. É por meio desse conflito que se determina o nível de tensão (expectativa) para prender o leitor. É, ainda, no enredo que os acontecimentos da narrativa se desenrolam. A forma mais conhecida de enredo é a que começa pela exposição da situação, citando personagens, tempo e espaço. Os fatos são narrados a partir da complicação (desafios) e finaliza com o clímax da história. Na conclusão do enredo tem-se o desfecho (resolução do problema). Obs. como trata-se de um RPG, uma narrativa compartilhada, parte da narrativa e o desfecho irá depender do que os personagens farão no jogo. Os problemas, desafios e soluções podem ser extraídos do quadro de avaliação.  O texto destes campos (problema, desafio e solução), comporão o prompt para a IA ajudar na criação. Pode-se cadastrar mais de um problema, desafio e solução.",
-                            "properties": {
-                                "problemas": {
-                                    "type": "string",
-                                    "title": "Problemas"
-                                },
-                                "desafios": {
-                                    "type": "string",
-                                    "title": "Desafios"
-                                },
-                                "solucao": {
-                                    "type": "string",
-                                    "title": "Solução"
+                        "description": "O enredo é o encadeamento de eventos que compõem a sua narrativa.",
+                        "properties": {
+                            "problema": {
+                                "type": "array",
+                                "title": "Problemas",
+                                "items": {
+                                    "type": "object",
+                                    "title": "Problema",
+                                    "properties": {
+                                        "descricao": {
+                                            "type": "string",
+                                            "title": "Descrição do Problema"
+                                        },
+                                        "desafio": {
+                                            "type": "string",
+                                            "title": "Desafio"
+                                        },
+                                        "solucao": {
+                                            "type": "string",
+                                            "title": "Solução Proposta"
+                                        }
+                                    },
+                                    "required": ["descricao", "desafio", "solucao"]
                                 }
-                            },
-                            "required": ["problemas", "desafios", "solucao"]
-                        }
+                            }
+                        },
+                        "required": ["problema"]
                     },
                     "tema": {
                         "type": "string",
@@ -560,41 +578,40 @@
                 editorDiv.style.display = "none"; // Oculta o formulário
             }
         }
-
+       
         function substituirPlaceholders(texto) {
+            const formatValue = (value, depth = 0) => {
+                const indent = "&nbsp;&nbsp;".repeat(depth * 2);
+                
+                if (Array.isArray(value)) {
+                    if (value.length === 0) return "<em>[não preenchido]</em>";
+                    return value.map(item => 
+                        `${indent}• ${formatValue(item, depth + 1)}`
+                    ).join("<br>");
+                }
+                
+                if (typeof value === "object") {
+                    return Object.entries(value)
+                        .map(([key, val]) => 
+                            `${indent}<strong>${key}:</strong> ${formatValue(val, depth + 1)}`
+                        ).join("<br>");
+                }
+                
+                return value;
+            };
+
             return texto.replace(/\[(.*?)\]/g, (match, campo) => {
-                const valorCampo = database[campo];
-
-                // Se o campo não existir ou for vazio
-                if (!valorCampo || (Array.isArray(valorCampo) && valorCampo.length === 0)) {
-                    return `[${campo} (vazio)]`;
+                const parts = campo.split(".").filter(p => p.trim() !== "");
+                let currentValue = database;
+                
+                for (const part of parts) {
+                    if (!currentValue || typeof currentValue !== "object") break;
+                    currentValue = currentValue[part];
                 }
 
-                // Se for um array
-                if (Array.isArray(valorCampo)) {
-                    return valorCampo.map(item => {
-                        if (typeof item === "object" && item !== null) {
-                            // Formata objetos dentro do array (ex.: personagens, enredo)
-                            return Object.entries(item)
-                                .map(([key, value]) => {
-                                    if (Array.isArray(value)) {
-                                        // Subarrays (ex.: habilidadesTecnicas, habilidadesSociais)
-                                        return `${key}: [${value.map(subItem =>
-                                            typeof subItem === "object"
-                                                ? Object.entries(subItem).map(([k, v]) => `${k}: ${v}`).join(", ")
-                                                : subItem
-                                        ).join("; ")}]`;
-                                    }
-                                    return `${key}: ${value}`;
-                                })
-                                .join(", ");
-                        }
-                        return item; // Para itens simples (não objetos)
-                    }).join("; "); // Separador entre itens do array
-                }
-
-                // Para valores simples (string, número, etc.)
-                return valorCampo;
+                return currentValue 
+                    ? formatValue(currentValue)
+                    : `<em class="vazio">[${campo} não preenchido]</em>`;
             });
         }
 
@@ -617,16 +634,61 @@
             saveData(); // Salva os dados e atualiza o bloco de explicação
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // Exibir os dados ao carregar a página
-        // document.getElementById("output").textContent = JSON.stringify(database, null, 4);
-
+        
         setTimeout(() => {
             atualizarFluxo();
             atualizarCampos();
             exibirBlocoExplicacao();
         }, 100);
 
+
+        // Função para baixar o JSON
+        function downloadJSON() {
+            const dataStr = JSON.stringify(database, null, 2);
+            const blob = new Blob([dataStr], { type: "application/json" });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `rpg-data-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Função para carregar JSON
+        document.getElementById('jsonFileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const loadedData = JSON.parse(e.target.result);
+                    database = loadedData;
+                    editor.setValue(loadedData);
+                    localStorage.setItem("database", JSON.stringify(loadedData));
+                    atualizarFluxo();
+                    exibirBlocoExplicacao();
+                    alert("Dados carregados com sucesso!");
+                } catch (error) {
+                    alert("Erro ao carregar arquivo. Verifique o formato.");
+                }
+            };
+            reader.readAsText(file);
+        });
+        
+        function preparePrint() {
+            if (!database.narrativa || database.narrativa.trim() === "") {
+                alert("O campo narrativa está vazio!");
+                return;
+            }
+            
+            // Salva no localStorage e abre nova página
+            localStorage.setItem('printNarrative', database.narrativa);
+            window.open('print.html', '_blank');
+        }
+        
     </script>
 </body>
 
