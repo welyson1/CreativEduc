@@ -317,4 +317,8 @@ li span::after {
   .dsc-content-image {
     max-width: 100%;
   }
+
+  .logo {
+    width: 100%;
+  }
 }
