@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editor de JSON Dinâmico</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>    
+    <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
     <link rel="stylesheet" href="./styles/index.css">
 </head>
+
 <body>
     <!-- <div class="container"> -->
     <div id="header">
@@ -27,16 +28,17 @@
 
             <!-- Novos botões -->
             <input type="file" id="jsonFileInput" style="display: none;" accept=".json">
-            <button class="btn btn-info mt-3" onclick="document.getElementById('jsonFileInput').click()">Carregar Dados</button>
-            <button class="btn btn-warning mt-3" onclick="downloadJSON()">Baixar JSON</button>    
+            <button class="btn btn-info mt-3" onclick="document.getElementById('jsonFileInput').click()">Carregar
+                Dados</button>
+            <button class="btn btn-warning mt-3" onclick="downloadJSON()">Baixar JSON</button>
             <!-- Botão existente -->
-            <button class="btn btn-danger mt-3" onclick="preparePrint()">Salvar Narrativa em PDF</button>      
+            <button class="btn btn-danger mt-3" onclick="preparePrint()">Salvar Narrativa em PDF</button>
         </div>
 
         <div id="fluxo-processo" class="mt-3">
             <ul id="lista-processos"></ul>
         </div>
-        
+
     </div>
 
     <script>
@@ -55,15 +57,15 @@
                 processo: "Design Estética",
                 exibirBlocoExplicacao: true
             },
-           
+
             3: {
                 campos: [],
                 textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Design Socialmente Consciente</h1>  <p class='dsc-content-text'>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p> <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/NUZsquE.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/SFAuNny.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/ALsQBrC.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/wpNWH85.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/q8TDi6G.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/dgviYhR.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/NEbg5MR.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/lpZZ2TJ.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/FLDbdN6.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div></div>",
                 processo: "DSC - Torta de Valores",
                 exibirBlocoExplicacao: false
             },
-            
-           
+
+
             4: {
                 campos: ["ambientacaoAtmosfera", "ambientacaoCenario", "ambientacaoEspaco"],
                 textoExplicativo: null,
@@ -113,14 +115,28 @@
                 exibirBlocoExplicacao: false
             },
             12: {
-                campos: [],                
+                campos: [],
                 textoExplicativo: "<div class='dsc-container'>  <h1 class='dsc-main-title'>Escada semiotica</h1>  <p class='dsc-content-text'>Texto para colocar</p>  <div class='dsc-image-wrapper'>   <img class='dsc-content-image' src='https://i.imgur.com/00BsA8k.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div>  <div class='dsc-image-wrapper'>    <img class='dsc-content-image' src='https://i.imgur.com/FpTZ2ky.png' alt='...'>    <h3 class='dsc-image-caption'>Título da imagem</h3>  </div></div>",
                 processo: "DSC - Escada Semiotica",
                 exibirBlocoExplicacao: false
             },
+            /*
             13: {
                 campos: [],                
                 textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Criação da narrativa</h1>  <p class='dsc-content-text'> Crie um RPG educacional focado na aprendizagem de <strong>[funcoesAprendizagem.Criar]</strong>, no contexto de <strong>[conteudo]</strong>. O jogo deve estimular o desenvolvimento das habilidades sociais: <ul>[habilidadesSociais]</ul> O RPG utilizará o tema <strong>[tema]</strong> e apresentará: - Atmosfera: <em>[ambientacaoAtmosfera]</em> - Cenário principal: <em>[ambientacaoCenario]</em> - Espaços jogáveis: <em>[ambientacaoEspaco]</em> Os jogadores controlarão: <div class='personagens'>[personagens]</div> Desafios principais: <div class='enredo'>[enredo.problema]</div> Cada protagonista terá habilidades técnicas: <em>[habilidadesTecnicas]</em> e sociais: <em>[habilidadesSociais]</em>.</p><p>Acesse <a href='https://chatgpt.com/' target='_blank'>https://chatgpt.com/</a> e cole este prompt!</p></div>",
+                processo: "Narrativa",
+                exibirBlocoExplicacao: false
+            },
+            */
+            13: {
+                campos: [],
+                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Criação da narrativa</h1>  <p class='dsc-content-text'>" +
+                    "Crie um RPG educacional em que o aluno possa [funcoesAprendizagem.Criar], para aprender mais sobre [conteudo] e [conteudoInterdisciplinar]. O jogo deve estimular o exercício das habilidades sociais e interpessoais: [habilidadesSociais] e [habilidadesTecnicas]. " +
+                    "O RPG deve utilizar o tema [tema] e apresentar um ambiente [ambientacaoAtmosfera]. O cenário principal é [ambientacaoCenario], com espaços jogáveis em [ambientacaoEspaco]. " +
+                    "Os personagens devem possuir a seguinte descrição [personagens.descricao] da [personagens.categoria], para resolverem o [enredo.problema.descricao] superando [enredo.problema.desafio], explorando possíveis [enredo.problema.solucao]. " +
+                    "Cada protagonista terá [habilidadesTecnicas] e [habilidadesSociais] específicas. Além disso, defina parâmetros de caracterização dos personagens e estabeleça regras de aleatoriedade para eventos e desafios do jogo. " +
+                    "O jogo deve conter [sessoes.nome] e [sessoes.cenas.descricao] para resolver os [enredo.problema.desafio]. A aleatoriedade pode utilizar [regrasAleatoriedade], prever [regrasRecompensas] e fornecer [regrasFeedback]. Utilizar estes materiais [materiais.descricao].</p>" +
+                    "<p>Acesse <a href='https://chatgpt.com/' target='_blank'>https://chatgpt.com/</a> e cole este prompt!</p></div>",
                 processo: "Narrativa",
                 exibirBlocoExplicacao: false
             },
@@ -570,38 +586,38 @@
                 editorDiv.style.display = "none"; // Oculta o formulário
             }
         }
-       
+
         function substituirPlaceholders(texto) {
             const formatValue = (value, depth = 0) => {
                 const indent = "&nbsp;&nbsp;".repeat(depth * 2);
-                
+
                 if (Array.isArray(value)) {
                     if (value.length === 0) return "<em>[não preenchido]</em>";
-                    return value.map(item => 
+                    return value.map(item =>
                         `${indent}• ${formatValue(item, depth + 1)}`
                     ).join("<br>");
                 }
-                
+
                 if (typeof value === "object") {
                     return Object.entries(value)
-                        .map(([key, val]) => 
+                        .map(([key, val]) =>
                             `${indent}<strong>${key}:</strong> ${formatValue(val, depth + 1)}`
                         ).join("<br>");
                 }
-                
+
                 return value;
             };
 
             return texto.replace(/\[(.*?)\]/g, (match, campo) => {
                 const parts = campo.split(".").filter(p => p.trim() !== "");
                 let currentValue = database;
-                
+
                 for (const part of parts) {
                     if (!currentValue || typeof currentValue !== "object") break;
                     currentValue = currentValue[part];
                 }
 
-                return currentValue 
+                return currentValue
                     ? formatValue(currentValue)
                     : `<em class="vazio">[${campo} não preenchido]</em>`;
             });
@@ -626,7 +642,7 @@
             saveData(); // Salva os dados e atualiza o bloco de explicação
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-        
+
         setTimeout(() => {
             atualizarFluxo();
             atualizarCampos();
@@ -649,12 +665,12 @@
         }
 
         // Função para carregar JSON
-        document.getElementById('jsonFileInput').addEventListener('change', function(e) {
+        document.getElementById('jsonFileInput').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 try {
                     const loadedData = JSON.parse(e.target.result);
                     database = loadedData;
@@ -669,18 +685,18 @@
             };
             reader.readAsText(file);
         });
-        
+
         function preparePrint() {
             if (!database.narrativa || database.narrativa.trim() === "") {
                 alert("O campo narrativa está vazio!");
                 return;
             }
-            
+
             // Salva no localStorage e abre nova página
             localStorage.setItem('printNarrative', database.narrativa);
             window.open('print.html', '_blank');
         }
-        
+
     </script>
 </body>
 
