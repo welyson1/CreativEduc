@@ -283,7 +283,8 @@
                         "title": "Ambientação Espaço",
                         "description": "O espaço é a extensão do cenário, em que é possível descrever detalhes do ambiente físico, ambiente psicológico ou ambiente social em que as cenas ocorrem. O cenário pode ser decomposto em vários espaços. Por exemplo: se o cenário representa uma cidade, a narrativa pode conter cenas em bar (o bar é um espaço da cidade) que será descrito para uma determinada cena. Ainda aqui a Torta de Valores pode ser utilizada bem como palavras-chave para o prompt da IA.",
                         "items": {
-                            "type": "string"
+                            "type": "string",
+                            "title": "Ambientação Espaço"
                         }
                     },
                     "enredo": {
@@ -409,12 +410,14 @@
                                         "type": "object",
                                         "title": "Habilidade Tecnica",
                                         "properties": {
-                                            "Descrição": {
+                                            "descricao": {
                                                 "type": "string",
+                                                "title": "Descrição",
                                                 "description": "Descrição da habilidade técnica"
                                             },
-                                            "Parametros": {
+                                            "parametros": {
                                                 "type": "string",
+                                                "title": "Parâmetros",
                                                 "description": "Parâmetros da habilidade técnica"
                                             }
                                         }
@@ -465,6 +468,7 @@
                     },
                     "narrativa": {
                         "type": "string",
+                        "title": "Narrativa",
                         "description": "Narrativa principal"
                     }
                 }
