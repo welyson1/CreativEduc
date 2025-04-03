@@ -322,3 +322,13 @@ li span::after {
     width: 100%;
   }
 }
+
+.callout-note {
+  background: #FFF3CD;
+  color: #856404;
+  padding: 15px;
+  border-left: 5px solid #FFCC00;
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  margin: 20px 0;
+}
