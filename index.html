@@ -8,6 +8,38 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
     <link rel="stylesheet" href="./styles/index.css">
+
+    <style>
+        /* Estilo para o modal */
+        .modal {
+            display: none; /* Oculto por padrão */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            max-width: 80%;
+            max-height: 80%;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            color: white;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>    
@@ -39,6 +71,11 @@
             <ul id="lista-processos"></ul>
         </div>
 
+    </div>
+
+    <div id="imageModal" class="modal">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
     </div>
 
     <script>
@@ -725,41 +762,7 @@
             // Salva no localStorage e abre nova página
             localStorage.setItem('printNarrative', database.narrativa);
             window.open('print.html', '_blank');          
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const imagens = document.querySelectorAll('.dsc-content-image');
-            imagens.forEach(imagem => {
-                imagem.style.cursor = 'pointer';
-                imagem.addEventListener('click', () => {
-                    const modal = document.createElement('div');
-                    modal.style.position = 'fixed';
-                    modal.style.top = '0';
-                    modal.style.left = '0';
-                    modal.style.width = '100%';
-                    modal.style.height = '100%';
-                    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-                    modal.style.display = 'flex';
-                    modal.style.justifyContent = 'center';
-                    modal.style.alignItems = 'center';
-                    modal.style.zIndex = '1000';
-
-                    const img = document.createElement('img');
-                    img.src = imagem.src;
-                    img.style.maxWidth = '90%';
-                    img.style.maxHeight = '90%';
-                    img.style.border = '2px solid white';
-
-                    modal.appendChild(img);
-
-                    modal.addEventListener('click', () => {
-                        document.body.removeChild(modal);
-                    });
-
-                    document.body.appendChild(modal);
-                });
-            });
-        });
+        }       
 
         function clearData() {
             if (confirm('Tem certeza de que deseja limpar todos os dados?')) {
@@ -798,6 +801,29 @@
                 alert('Dados limpos com sucesso!');
             }
         }
+
+        // Função para abrir o modal com a imagem clicada
+        function openModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImage = document.getElementById('modalImage');
+            modal.style.display = 'block';
+            modalImage.src = src;
+        }
+
+        // Função para fechar o modal
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Adiciona evento de clique às imagens após o DOM ser carregado
+            document.querySelectorAll('.dsc-image-wrapper').forEach(image => {
+                image.addEventListener('click', () => openModal(image.src));
+            });
+        });
     </script>
 </body>
 </html>
