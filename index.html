@@ -8,38 +8,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@json-editor/json-editor@latest/dist/jsoneditor.min.js"></script>
     <link rel="stylesheet" href="./styles/index.css">
-
-    <style>
-        /* Estilo para o modal */
-        .modal {
-            display: none; /* Oculto por padrão */
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        .modal-content {
-            margin: auto;
-            display: block;
-            max-width: 80%;
-            max-height: 80%;
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 10px;
-            right: 25px;
-            color: white;
-            font-size: 35px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
 </head>
 
 <body>    
@@ -96,7 +64,7 @@
             },
             3: {
                 campos: [],
-                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Design Socialmente Consciente</h1> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/7z1f38R.png' alt='...'> </div> <p class='dsc-content-text'>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p class='dsc-content-text'>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p class='dsc-content-text'>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p><div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/SFAuNny.png' alt='...'>  </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/ALsQBrC.png' alt='...'> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/wpNWH85.png' alt='...'> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/q8TDi6G.png' alt='...'> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/dgviYhR.png' alt='...'> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/NEbg5MR.png' alt='...'> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/lpZZ2TJ.png' alt='...'> </div> ",
+                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Design Socialmente Consciente</h1> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/7z1f38R.png' alt='...' onclick=\"openModal('https://i.imgur.com/7z1f38R.png')\"> </div> <p class='dsc-content-text'>O Design Socialmente Consciente propõe a criação de artefatos para um design mais inclusivo e sustentável, de forma colaborativa. Assim, o CreativEduc estimula a aplicação em sala de aula com a participação dos alunos na construção destes artefatos que irão ajudar na descoberta dos personagens (partes envolvidas com o tema/enredo), com o levantamento de problemas e possíveis soluções, com uma visão sistêmica do contexto, considerando elementos sociais e interativos e por fim com uma lista de requisitos sociotécnicos que comporão o jogo.</p><p class='dsc-content-text'>São quatro artefatos: diagrama das partes interessadas, quadro de avaliação, torta de valores e escada semiótica (sendo necessário o tempo aproximado de 2 a 3 aulas para os quatro artefatos). Iremos começar pela Torta de Valores.</p><p class='dsc-content-text'>Sugere-se o preenchimento da Torta de Valores junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa. Com base no tema proposto, a Torta de Valores irá subsidiar a temporalidade da história, cenário, recursos, formas de interação e socialização dos personagens etc.</p><div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/SFAuNny.png' alt='...' onclick=\"openModal('https://i.imgur.com/SFAuNny.png')\">  </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/ALsQBrC.png' alt='...' onclick=\"openModal('https://i.imgur.com/ALsQBrC.png')\"> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/wpNWH85.png' alt='...' onclick=\"openModal('https://i.imgur.com/wpNWH85.png')\"> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/q8TDi6G.png' alt='...' onclick=\"openModal('https://i.imgur.com/q8TDi6G.png')\"> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/dgviYhR.png' alt='...' onclick=\"openModal('https://i.imgur.com/dgviYhR.png')\"> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/NEbg5MR.png' alt='...' onclick=\"openModal('https://i.imgur.com/NEbg5MR.png')\"> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/lpZZ2TJ.png' alt='...' onclick=\"openModal('https://i.imgur.com/lpZZ2TJ.png')\"> </div> ",
                 processo: "DSC - Torta de Valores",
                 exibirBlocoExplicacao: false
             },
@@ -108,7 +76,7 @@
             },            
             5: {
                 campos: [],
-                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Diagrama das Partes Interessadas</h1> <p class='dsc-content-text'>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/FLDbdN6.png' alt='...'> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/smU46nV.png' alt='...'> </div></div>",
+                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Diagrama das Partes Interessadas</h1> <p class='dsc-content-text'>O Diagrama das Partes Interessadas é utilizado pelo DSC para identificar os principais envolvidos e outras pessoas interessadas no contexto da solução. O DPI possui cinco camadas, sendo o núcleo, camada de operação (utilizado para o nome da aplicação, neste caso o nome do jogo), em seguida a camada de contribuição, fonte, mercado e comunidade. Quanto mais próximo do núcleo, maior é o envolvimento da pessoa. No RPG, as partes interessadas identificadas podem ser transformadas em personagens: protagonistas (os mais próximos ao núcleo), antagonistas e coadjuvantes.</p><p>Sugere-se o preenchimento do DPI junto com os alunos, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/FLDbdN6.png' alt='...' onclick=\"openModal('https://i.imgur.com/FLDbdN6.png')\"> </div> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/smU46nV.png' alt='...' onclick=\"openModal('https://i.imgur.com/smU46nV.png')\"> </div></div>",
                 processo: "DSC - Diagrama das Partes Interessadas",
                 exibirBlocoExplicacao: false
             },
@@ -120,7 +88,7 @@
             },            
             7: {
                 campos: [],
-                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Quadro de Avaliação</h1> <p class='dsc-content-text'> <p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p> </p> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/MCQjCxA.png' alt='...'> </div></div>",
+                textoExplicativo: "<div class='dsc-container'> <h1 class='dsc-main-title'>Quadro de Avaliação</h1> <p class='dsc-content-text'> <p>O Quadro de Avaliação é utilizado pelo DSC para identificar problemas e/ou levantar questões de acordo com a visão das partes interessadas descobertas no DPI, bem como propor ideias e/ou soluções para os problemas levantados. O resultado do quadro de avaliação poderá ser utilizado para a composição do enredo. Sugere-se o preenchimento do Quadro de Avaliação junto com os alunos, logo após o preenchimento do DPI, utilizando o quadro branco e canetas coloridas, de forma colaborativa.</p> </p> <div class='dsc-image-wrapper'> <img class='dsc-content-image' src='https://i.imgur.com/MCQjCxA.png' alt='...' onclick=\"openModal('https://i.imgur.com/MCQjCxA.png')\"> </div></div>",
                 processo: "DSC - Quadro de Avaliação",
                 exibirBlocoExplicacao: false
             },
@@ -804,26 +772,29 @@
 
         // Função para abrir o modal com a imagem clicada
         function openModal(src) {
+            console.log(`Abrindo modal para a imagem com src: ${src}`);
             const modal = document.getElementById('imageModal');
             const modalImage = document.getElementById('modalImage');
-            modal.style.display = 'block';
-            modalImage.src = src;
+            if (modal && modalImage) {
+                modal.style.display = 'block';
+                modalImage.src = src;
+                console.log('Modal exibido com sucesso.');
+            } else {
+                console.error('Erro: Modal ou elemento de imagem não encontrado.');
+            }
         }
 
         // Função para fechar o modal
         function closeModal() {
+            console.log('Fechando modal.');
             const modal = document.getElementById('imageModal');
-            modal.style.display = 'none';
+            if (modal) {
+                modal.style.display = 'none';
+                console.log('Modal fechado com sucesso.');
+            } else {
+                console.error('Erro: Modal não encontrado.');
+            }
         }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Adiciona evento de clique às imagens após o DOM ser carregado
-            document.querySelectorAll('.dsc-image-wrapper').forEach(image => {
-                image.addEventListener('click', () => openModal(image.src));
-            });
-        });
     </script>
 </body>
 </html>
