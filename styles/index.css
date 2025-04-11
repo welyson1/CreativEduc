@@ -349,8 +349,9 @@ li span::after {
 .modal-content {
   margin: auto;
   display: block;
-  max-width: 80%;
-  max-height: 80%;
+  max-width: 90%; /* Limita a largura máxima */
+  max-height: 90%; /* Limita a altura máxima */
+  object-fit: contain; /* Garante que a imagem se ajuste proporcionalmente */
 }
 
 .modal-close {
