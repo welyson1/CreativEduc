@@ -511,6 +511,23 @@
             });
         }
 
+        function atualizarVisibilidadeBotoes() {
+            const botaoProximaEtapa = document.querySelector('.btn-primary');
+            const botaoEtapaAnterior = document.querySelector('.btn-success');
+
+            if (etapaAtual === 1) {
+                botaoEtapaAnterior.style.display = 'none'; // Oculta o botão "Etapa Anterior" na primeira etapa
+            } else {
+                botaoEtapaAnterior.style.display = 'inline-block'; // Exibe o botão "Etapa Anterior" em outras etapas
+            }
+
+            if (etapaAtual === 14) {
+                botaoProximaEtapa.style.display = 'none'; // Oculta o botão "Próxima Etapa" na última etapa
+            } else {
+                botaoProximaEtapa.style.display = 'inline-block'; // Exibe o botão "Próxima Etapa" em outras etapas
+            }
+        }
+
         function atualizarFluxo() {
             const listaProcessos = document.getElementById("lista-processos");
             listaProcessos.innerHTML = "";
@@ -519,7 +536,7 @@
                 let item = document.createElement("li");
 
                 item.innerHTML =
-                    `<span style="background-color: ${parseInt(etapa) <= etapaAtual ? 'rgb(15, 173, 86)' : 'transparent'}; color: ${parseInt(etapa) <= etapaAtual ? 'white' : 'black'}">${etapa}</span> <button class="menu-button" style="color: ${parseInt(etapa) === etapaAtual ? 'rgb(15, 173, 86)' : ''};" onclick="etapaAtual = ${etapa}; atualizarFluxo(); atualizarCampos(); exibirBlocoExplicacao(); saveData();">${config.processo}</button>`;
+                    `<span style="background-color: ${parseInt(etapa) <= etapaAtual ? 'rgb(15, 173, 86)' : 'transparent'}; color: ${parseInt(etapa) <= etapaAtual ? 'white' : 'black'}">${etapa}</span> <button class="menu-button" style="color: ${parseInt(etapa) === etapaAtual ? 'rgb(15, 173, 86)' : ''};" onclick="etapaAtual = ${etapa}; atualizarFluxo(); atualizarCampos(); exibirBlocoExplicacao(); saveData(); atualizarVisibilidadeBotoes();">${config.processo}</button>`;
 
                 // Destaca a etapa atual
                 if (parseInt(etapa) === etapaAtual) {
@@ -541,6 +558,8 @@
                         `<span>${etapa}</span> ${config.processo}`;
                 }
             });
+
+            atualizarVisibilidadeBotoes(); // Atualiza a visibilidade dos botões ao navegar pelo menu
         }
 
         function exibirBlocoExplicacao() {
@@ -654,41 +673,15 @@
             atualizarCampos();
             exibirBlocoExplicacao(); // Atualiza o bloco de explicação
             saveData(); // Salva os dados e atualiza o bloco de explicação
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-
-             // Controle de visibilidade dos botões
-            const botaoProximaEtapa = document.querySelector('.btn-primary');
-            const botaoEtapaAnterior = document.querySelector('.btn-success');
-
-            if (etapaAtual === 1) {
-                botaoEtapaAnterior.style.display = 'none'; // Oculta o botão "Etapa Anterior" na primeira etapa
-            } else {
-                botaoEtapaAnterior.style.display = 'inline-block'; // Exibe o botão "Etapa Anterior" em outras etapas
-            }
-
-            // Oculta o botão "Próxima Etapa" na última etapa
-            if (etapaAtual === 14) {
-                botaoProximaEtapa.style.display = 'none';
-            } else {
-                botaoProximaEtapa.style.display = 'inline-block';
-            }
+            atualizarVisibilidadeBotoes(); // Atualiza a visibilidade dos botões
+            window.scrollTo({ top: 0, behavior: 'smooth' });            
         }
 
         setTimeout(() => {
             atualizarFluxo();
             atualizarCampos();
             exibirBlocoExplicacao();
-
-            const botaoProximaEtapa = document.querySelector('.btn-primary');
-            const botaoEtapaAnterior = document.querySelector('.btn-success');
-
-            if (etapaAtual === 1) {
-                botaoEtapaAnterior.style.display = 'none';
-            }
-
-            if (etapaAtual === 14) {
-                botaoProximaEtapa.style.display = 'none';
-            }
+            atualizarVisibilidadeBotoes(); // Atualiza a visibilidade dos botões ao carregar a página
         }, 100);
 
         // Função para baixar o JSON
@@ -734,39 +727,37 @@
             window.open('print.html', '_blank');          
         }
 
-        function expandirImagem(src) {
-            const modal = document.createElement('div');
-            modal.style.position = 'fixed';
-            modal.style.top = '0';
-            modal.style.left = '0';
-            modal.style.width = '100%';
-            modal.style.height = '100%';
-            modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-            modal.style.display = 'flex';
-            modal.style.justifyContent = 'center';
-            modal.style.alignItems = 'center';
-            modal.style.zIndex = '1000';
-
-            const img = document.createElement('img');
-            img.src = src;
-            img.style.maxWidth = '90%';
-            img.style.maxHeight = '90%';
-            img.style.border = '2px solid white';
-
-            modal.appendChild(img);
-
-            modal.addEventListener('click', () => {
-                document.body.removeChild(modal);
-            });
-
-            document.body.appendChild(modal);
-        }
-
         document.addEventListener('DOMContentLoaded', () => {
             const imagens = document.querySelectorAll('.dsc-content-image');
             imagens.forEach(imagem => {
                 imagem.style.cursor = 'pointer';
-                imagem.addEventListener('click', () => expandirImagem(imagem.src));
+                imagem.addEventListener('click', () => {
+                    const modal = document.createElement('div');
+                    modal.style.position = 'fixed';
+                    modal.style.top = '0';
+                    modal.style.left = '0';
+                    modal.style.width = '100%';
+                    modal.style.height = '100%';
+                    modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                    modal.style.display = 'flex';
+                    modal.style.justifyContent = 'center';
+                    modal.style.alignItems = 'center';
+                    modal.style.zIndex = '1000';
+
+                    const img = document.createElement('img');
+                    img.src = imagem.src;
+                    img.style.maxWidth = '90%';
+                    img.style.maxHeight = '90%';
+                    img.style.border = '2px solid white';
+
+                    modal.appendChild(img);
+
+                    modal.addEventListener('click', () => {
+                        document.body.removeChild(modal);
+                    });
+
+                    document.body.appendChild(modal);
+                });
             });
         });
 
