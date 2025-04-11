@@ -266,7 +266,8 @@ li span::after {
 
 /* Imagens */
 .dsc-content-image {
-  max-width: 90%;
+  max-width: 70%; /* Reduz o tamanho máximo das imagens no texto */
+  margin: 0 auto; /* Centraliza as imagens no texto */
   height: auto;
   border-radius: 5px;
   margin: 15px 0;
@@ -347,6 +348,10 @@ li span::after {
 }
 
 .modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   margin: auto;
   display: block;
   max-width: 90%; /* Limita a largura máxima */
